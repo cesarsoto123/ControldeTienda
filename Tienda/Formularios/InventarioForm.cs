@@ -34,7 +34,7 @@ namespace Tienda.Formularios
 
         private void productosDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+             
         }
     }
 }
