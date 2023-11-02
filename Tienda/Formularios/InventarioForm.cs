@@ -31,5 +31,10 @@ namespace Tienda.Formularios
             this.productosTableAdapter.Fill(this.tiendaDataSet.Productos);
 
         }
+
+        private void productosDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

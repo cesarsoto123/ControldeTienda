@@ -63,12 +63,11 @@ namespace Tienda
                 DataSet ds = new DataSet();
                 adaptador.Fill(ds);
                 DataTable Tabla = ds.Tables[0];
-                if(Tabla.Rows.Count > 0)
+                if (Tabla.Rows.Count > 0)
                 {
                     
                 }
-
             }
-                    }
+        }
     }
 }
