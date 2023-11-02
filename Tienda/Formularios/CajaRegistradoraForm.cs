@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Data.OleDb;
 using System.Drawing;
@@ -14,9 +15,17 @@ namespace Tienda
 {
     public partial class Form1 : Form
     {
+        private string TiendaConnectionString { get; set; } = ConfigurationManager.ConnectionStrings["TiendaConnectionString"].ConnectionString;
+
+        private readonly OleDbConnection conexion;
+
         public Form1()
         {
             InitializeComponent();
+            conexion = new OleDbConnection
+            {
+                ConnectionString = TiendaConnectionString
+            };
         }
 
         private void cajaRegistradoraBindingNavigatorSaveItem_Click(object sender, EventArgs e)
@@ -29,6 +38,8 @@ namespace Tienda
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            // TODO: esta línea de código carga datos en la tabla 'tiendaDataSet.Clientes' Puede moverla o quitarla según sea necesario.
+            this.clientesTableAdapter.Fill(this.tiendaDataSet.Clientes);
             // TODO: esta línea de código carga datos en la tabla 'tiendaDataSet.CajaRegistradora' Puede moverla o quitarla según sea necesario.
             this.cajaRegistradoraTableAdapter.Fill(this.tiendaDataSet.CajaRegistradora);
 
@@ -51,23 +62,40 @@ namespace Tienda
             if (idProducto_tbx.TextLength == 0)
             {
                 MessageBox.Show("Complete el campo requerido");
+                return;
             }
-            else
+
+            DataSet ds = new DataSet();
+            string insert = $"INSERT INTO CajaRegistradora (IdProducto, Cantidad) VALUES ({idProducto_tbx.Text}, 1)";
+            string select = $"SELECT * FROM Productos";
+
+            OleDbDataAdapter adaptador = new OleDbDataAdapter();
+            OleDbCommand command = new OleDbCommand(insert, conexion);
+
+            try
             {
-                string ubicacion = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=|DataDirectory|\\BD\\Tienda.mdb";
-                string consulta = "Select * FROM Productos WHERE idProducto =" + idProducto_tbx.Text;
-                OleDbConnection conexion = new OleDbConnection();
-                conexion.ConnectionString = ubicacion;
-                OleDbDataAdapter adaptador = new OleDbDataAdapter(consulta, conexion);
                 conexion.Open();
-                DataSet ds = new DataSet();
-                adaptador.Fill(ds);
-                DataTable Tabla = ds.Tables[0];
-                if (Tabla.Rows.Count > 0)
-                {
-                    
-                }
+
+                adaptador.InsertCommand = command;
+                var reader = command.ExecuteNonQuery();
+
+                conexion.Close();
             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
+            adaptador.Fill(ds);
+
+            adaptador.Update(ds, "Table");
+
+            DataTable tabla = ds.Tables[0];
+
+            cajaRegistradoraDataGridView.DataSource = tabla;
+            cajaRegistradoraDataGridView.Refresh();
+
+            conexion.Close();
         }
     }
 }
