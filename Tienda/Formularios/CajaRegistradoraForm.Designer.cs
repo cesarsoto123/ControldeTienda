@@ -1,7 +1,7 @@
 ﻿
 namespace Tienda
 {
-    partial class Form1
+    partial class CajaRegistradoraForm
     {
         /// <summary>
         /// Variable del diseñador necesaria.
@@ -30,7 +30,7 @@ namespace Tienda
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CajaRegistradoraForm));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.cajaRegistradoraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.inventarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -103,14 +103,14 @@ namespace Tienda
             this.inventarioToolStripMenuItem.Name = "inventarioToolStripMenuItem";
             this.inventarioToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
             this.inventarioToolStripMenuItem.Text = "Inventario";
-            this.inventarioToolStripMenuItem.Click += new System.EventHandler(this.inventarioToolStripMenuItem_Click);
+            this.inventarioToolStripMenuItem.Click += new System.EventHandler(this.InventarioButtonClick);
             // 
             // ayudaToolStripMenuItem
             // 
             this.ayudaToolStripMenuItem.Name = "ayudaToolStripMenuItem";
             this.ayudaToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
             this.ayudaToolStripMenuItem.Text = "Ayuda";
-            this.ayudaToolStripMenuItem.Click += new System.EventHandler(this.ayudaToolStripMenuItem_Click);
+            this.ayudaToolStripMenuItem.Click += new System.EventHandler(this.AyudaButtonClick);
             // 
             // cajaRegistradoraBindingNavigator
             // 
@@ -234,7 +234,7 @@ namespace Tienda
             this.cajaRegistradoraBindingNavigatorSaveItem.Name = "cajaRegistradoraBindingNavigatorSaveItem";
             this.cajaRegistradoraBindingNavigatorSaveItem.Size = new System.Drawing.Size(24, 24);
             this.cajaRegistradoraBindingNavigatorSaveItem.Text = "Guardar datos";
-            this.cajaRegistradoraBindingNavigatorSaveItem.Click += new System.EventHandler(this.cajaRegistradoraBindingNavigatorSaveItem_Click);
+            this.cajaRegistradoraBindingNavigatorSaveItem.Click += new System.EventHandler(this.SaveItemClick);
             // 
             // tiendaDataSet
             // 
@@ -275,7 +275,7 @@ namespace Tienda
             this.finalizarCompra_btn.TabIndex = 6;
             this.finalizarCompra_btn.Text = "Finalizar Compra";
             this.finalizarCompra_btn.UseVisualStyleBackColor = true;
-            this.finalizarCompra_btn.Click += new System.EventHandler(this.finalizarCompra_btn_Click);
+            this.finalizarCompra_btn.Click += new System.EventHandler(this.FinalizarCompraButtonClick);
             // 
             // total_lbl
             // 

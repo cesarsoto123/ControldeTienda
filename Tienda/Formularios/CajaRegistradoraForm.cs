@@ -1,32 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration;
-using System.Data;
-using System.Data.OleDb;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tienda.Formularios;
 using static Tienda.TiendaDataSet;
 
 namespace Tienda
 {
-    public partial class Form1 : Form
+    public partial class CajaRegistradoraForm : Form
     {
-        public Form1()
+        public CajaRegistradoraForm()
         {
             InitializeComponent();
-        }
-
-        private void cajaRegistradoraBindingNavigatorSaveItem_Click(object sender, EventArgs e)
-        {
-            this.Validate();
-            this.cajaRegistradoraBindingSource.EndEdit();
-            this.tableAdapterManager.UpdateAll(this.tiendaDataSet);
-
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -39,13 +22,21 @@ namespace Tienda
             this.cajaRegistradoraTableAdapter.Fill(this.tiendaDataSet.CajaRegistradora);
         }
 
-        private void inventarioToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SaveItemClick(object sender, EventArgs e)
+        {
+            this.Validate();
+            this.cajaRegistradoraBindingSource.EndEdit();
+            this.tableAdapterManager.UpdateAll(this.tiendaDataSet);
+        }
+
+
+        private void InventarioButtonClick(object sender, EventArgs e)
         {
             InventarioForm Inventario = new InventarioForm();
             Inventario.Show();
         }
 
-        private void ayudaToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AyudaButtonClick(object sender, EventArgs e)
         {
             AyudaForm Ayuda = new AyudaForm();
             Ayuda.Show();
@@ -73,7 +64,7 @@ namespace Tienda
             totalNum_lbl.Text = total.ToString();
         }
 
-        private void finalizarCompra_btn_Click(object sender, EventArgs e)
+        private void FinalizarCompraButtonClick(object sender, EventArgs e)
         {
             foreach (var row in this.cajaRegistradoraTableAdapter.GetData())
             {

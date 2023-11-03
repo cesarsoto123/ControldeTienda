@@ -218,7 +218,7 @@ namespace Tienda.Formularios
             this.productosBindingNavigatorSaveItem.Name = "productosBindingNavigatorSaveItem";
             this.productosBindingNavigatorSaveItem.Size = new System.Drawing.Size(23, 22);
             this.productosBindingNavigatorSaveItem.Text = "Guardar datos";
-            this.productosBindingNavigatorSaveItem.Click += new System.EventHandler(this.productosBindingNavigatorSaveItem_Click);
+            this.productosBindingNavigatorSaveItem.Click += new System.EventHandler(this.SaveItemClick);
             // 
             // productosDataGridView
             // 
@@ -237,7 +237,6 @@ namespace Tienda.Formularios
             this.productosDataGridView.Name = "productosDataGridView";
             this.productosDataGridView.Size = new System.Drawing.Size(744, 398);
             this.productosDataGridView.TabIndex = 1;
-            this.productosDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.productosDataGridView_CellContentClick);
             // 
             // dataGridViewTextBoxColumn1
             // 
