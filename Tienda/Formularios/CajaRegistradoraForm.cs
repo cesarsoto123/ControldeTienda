@@ -15,17 +15,9 @@ namespace Tienda
 {
     public partial class Form1 : Form
     {
-        private string TiendaConnectionString { get; set; } = ConfigurationManager.ConnectionStrings["TiendaConnectionString"].ConnectionString;
-
-        private readonly OleDbConnection conexion;
-
         public Form1()
         {
             InitializeComponent();
-            conexion = new OleDbConnection
-            {
-                ConnectionString = TiendaConnectionString
-            };
         }
 
         private void cajaRegistradoraBindingNavigatorSaveItem_Click(object sender, EventArgs e)
@@ -38,6 +30,8 @@ namespace Tienda
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            // TODO: esta línea de código carga datos en la tabla 'tiendaDataSet.Productos' Puede moverla o quitarla según sea necesario.
+            this.productosTableAdapter.Fill(this.tiendaDataSet.Productos);
             // TODO: esta línea de código carga datos en la tabla 'tiendaDataSet.Clientes' Puede moverla o quitarla según sea necesario.
             this.clientesTableAdapter.Fill(this.tiendaDataSet.Clientes);
             // TODO: esta línea de código carga datos en la tabla 'tiendaDataSet.CajaRegistradora' Puede moverla o quitarla según sea necesario.
@@ -57,45 +51,16 @@ namespace Tienda
             Ayuda.Show();
         }
 
-        private void agregar_btn_Click(object sender, EventArgs e)
+        private void AddProductButtonClick(object sender, EventArgs e)
         {
-            if (idProducto_tbx.TextLength == 0)
-            {
-                MessageBox.Show("Complete el campo requerido");
-                return;
-            }
+            int idProducto = Convert.ToInt32(productosComboBox.SelectedValue);
 
-            DataSet ds = new DataSet();
-            string insert = $"INSERT INTO CajaRegistradora (IdProducto, Cantidad) VALUES ({idProducto_tbx.Text}, 1)";
-            string select = $"SELECT * FROM Productos";
+            this.cajaRegistradoraTableAdapter.Insert(idProducto, 1);
 
-            OleDbDataAdapter adaptador = new OleDbDataAdapter();
-            OleDbCommand command = new OleDbCommand(insert, conexion);
+            var data = this.cajaRegistradoraTableAdapter.GetData();
 
-            try
-            {
-                conexion.Open();
-
-                adaptador.InsertCommand = command;
-                var reader = command.ExecuteNonQuery();
-
-                conexion.Close();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            
-            adaptador.Fill(ds);
-
-            adaptador.Update(ds, "Table");
-
-            DataTable tabla = ds.Tables[0];
-
-            cajaRegistradoraDataGridView.DataSource = tabla;
+            cajaRegistradoraDataGridView.DataSource = data;
             cajaRegistradoraDataGridView.Refresh();
-
-            conexion.Close();
         }
     }
 }
