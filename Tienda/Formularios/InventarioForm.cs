@@ -22,7 +22,6 @@ namespace Tienda.Formularios
             this.Validate();
             this.productosBindingSource.EndEdit();
             this.tableAdapterManager.UpdateAll(this.tiendaDataSet);
-
         }
 
         private void InventarioForm_Load(object sender, EventArgs e)

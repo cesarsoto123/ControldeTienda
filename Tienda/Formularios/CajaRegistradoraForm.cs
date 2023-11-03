@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tienda.Formularios;
+using static Tienda.TiendaDataSet;
 
 namespace Tienda
 {
@@ -36,7 +37,6 @@ namespace Tienda
             this.clientesTableAdapter.Fill(this.tiendaDataSet.Clientes);
             // TODO: esta línea de código carga datos en la tabla 'tiendaDataSet.CajaRegistradora' Puede moverla o quitarla según sea necesario.
             this.cajaRegistradoraTableAdapter.Fill(this.tiendaDataSet.CajaRegistradora);
-
         }
 
         private void inventarioToolStripMenuItem_Click(object sender, EventArgs e)
@@ -55,12 +55,31 @@ namespace Tienda
         {
             int idProducto = Convert.ToInt32(productosComboBox.SelectedValue);
 
-            this.cajaRegistradoraTableAdapter.Insert(idProducto, 1);
+            try
+            {
+                this.cajaRegistradoraTableAdapter.Insert(idProducto, 1);
+                this.cajaRegistradoraTableAdapter.Update(this.tiendaDataSet.CajaRegistradora);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
-            var data = this.cajaRegistradoraTableAdapter.GetData();
-
-            cajaRegistradoraDataGridView.DataSource = data;
+            cajaRegistradoraDataGridView.DataSource = this.cajaRegistradoraTableAdapter.GetData();
             cajaRegistradoraDataGridView.Refresh();
+
+            ProductosRow producto = this.productosTableAdapter.GetData().FindByIdProduto(idProducto);
+            var total = Convert.ToDecimal(totalNum_lbl.Text) + producto.Precio;
+            totalNum_lbl.Text = total.ToString();
+        }
+
+        private void finalizarCompra_btn_Click(object sender, EventArgs e)
+        {
+            foreach (var row in this.cajaRegistradoraTableAdapter.GetData())
+            {
+                ProductosRow producto = this.productosTableAdapter.GetData().FindByIdProduto(row.IdProducto);
+                Console.WriteLine($"{producto.Nombre} : {producto.Precio}");
+            }
         }
     }
 }

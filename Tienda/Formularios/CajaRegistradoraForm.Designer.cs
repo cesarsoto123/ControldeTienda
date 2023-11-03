@@ -57,9 +57,6 @@ namespace Tienda
             this.cajaRegistradoraTableAdapter = new Tienda.TiendaDataSetTableAdapters.CajaRegistradoraTableAdapter();
             this.tableAdapterManager = new Tienda.TiendaDataSetTableAdapters.TableAdapterManager();
             this.cajaRegistradoraDataGridView = new System.Windows.Forms.DataGridView();
-            this.noArticuloDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.idProductoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cantidadDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cajaRegistradoraBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.clientesBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.clientesTableAdapter = new Tienda.TiendaDataSetTableAdapters.ClientesTableAdapter();
@@ -67,6 +64,9 @@ namespace Tienda
             this.productosTableAdapter = new Tienda.TiendaDataSetTableAdapters.ProductosTableAdapter();
             this.productosComboBox = new System.Windows.Forms.ComboBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.cantidadDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.idProductoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.noArticuloDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cajaRegistradoraBindingNavigator)).BeginInit();
             this.cajaRegistradoraBindingNavigator.SuspendLayout();
@@ -87,7 +87,8 @@ namespace Tienda
             this.ayudaToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1068, 24);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(836, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -137,7 +138,7 @@ namespace Tienda
             this.cajaRegistradoraBindingNavigator.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
             this.cajaRegistradoraBindingNavigator.Name = "cajaRegistradoraBindingNavigator";
             this.cajaRegistradoraBindingNavigator.PositionItem = this.bindingNavigatorPositionItem;
-            this.cajaRegistradoraBindingNavigator.Size = new System.Drawing.Size(1068, 27);
+            this.cajaRegistradoraBindingNavigator.Size = new System.Drawing.Size(836, 27);
             this.cajaRegistradoraBindingNavigator.TabIndex = 1;
             this.cajaRegistradoraBindingNavigator.Text = "bindingNavigator1";
             // 
@@ -193,9 +194,8 @@ namespace Tienda
             // 
             this.bindingNavigatorPositionItem.AccessibleName = "Posición";
             this.bindingNavigatorPositionItem.AutoSize = false;
-            this.bindingNavigatorPositionItem.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.bindingNavigatorPositionItem.Name = "bindingNavigatorPositionItem";
-            this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(65, 27);
+            this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(50, 23);
             this.bindingNavigatorPositionItem.Text = "0";
             this.bindingNavigatorPositionItem.ToolTipText = "Posición actual";
             // 
@@ -245,8 +245,7 @@ namespace Tienda
             // 
             this.idProducto_lbl.AutoSize = true;
             this.idProducto_lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.idProducto_lbl.Location = new System.Drawing.Point(747, 64);
-            this.idProducto_lbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.idProducto_lbl.Location = new System.Drawing.Point(560, 52);
             this.idProducto_lbl.Name = "idProducto_lbl";
             this.idProducto_lbl.Size = new System.Drawing.Size(73, 20);
             this.idProducto_lbl.TabIndex = 3;
@@ -257,10 +256,9 @@ namespace Tienda
             this.agregar_btn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.agregar_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.agregar_btn.Location = new System.Drawing.Point(751, 140);
-            this.agregar_btn.Margin = new System.Windows.Forms.Padding(4);
+            this.agregar_btn.Location = new System.Drawing.Point(563, 114);
             this.agregar_btn.Name = "agregar_btn";
-            this.agregar_btn.Size = new System.Drawing.Size(300, 33);
+            this.agregar_btn.Size = new System.Drawing.Size(260, 27);
             this.agregar_btn.TabIndex = 5;
             this.agregar_btn.Text = "Agregar";
             this.agregar_btn.UseVisualStyleBackColor = true;
@@ -271,35 +269,33 @@ namespace Tienda
             this.finalizarCompra_btn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.finalizarCompra_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.finalizarCompra_btn.Location = new System.Drawing.Point(751, 212);
-            this.finalizarCompra_btn.Margin = new System.Windows.Forms.Padding(4);
+            this.finalizarCompra_btn.Location = new System.Drawing.Point(563, 172);
             this.finalizarCompra_btn.Name = "finalizarCompra_btn";
-            this.finalizarCompra_btn.Size = new System.Drawing.Size(300, 33);
+            this.finalizarCompra_btn.Size = new System.Drawing.Size(260, 27);
             this.finalizarCompra_btn.TabIndex = 6;
             this.finalizarCompra_btn.Text = "Finalizar Compra";
             this.finalizarCompra_btn.UseVisualStyleBackColor = true;
+            this.finalizarCompra_btn.Click += new System.EventHandler(this.finalizarCompra_btn_Click);
             // 
             // total_lbl
             // 
             this.total_lbl.AutoSize = true;
             this.total_lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.total_lbl.Location = new System.Drawing.Point(4, 0);
-            this.total_lbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.total_lbl.Location = new System.Drawing.Point(3, 0);
             this.total_lbl.Name = "total_lbl";
-            this.total_lbl.Size = new System.Drawing.Size(98, 37);
+            this.total_lbl.Size = new System.Drawing.Size(125, 37);
             this.total_lbl.TabIndex = 7;
-            this.total_lbl.Text = "Total:";
+            this.total_lbl.Text = "Total: $";
             // 
             // totalNum_lbl
             // 
             this.totalNum_lbl.AutoSize = true;
             this.totalNum_lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.totalNum_lbl.Location = new System.Drawing.Point(110, 0);
-            this.totalNum_lbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.totalNum_lbl.Location = new System.Drawing.Point(134, 0);
             this.totalNum_lbl.Name = "totalNum_lbl";
-            this.totalNum_lbl.Size = new System.Drawing.Size(98, 37);
+            this.totalNum_lbl.Size = new System.Drawing.Size(80, 37);
             this.totalNum_lbl.TabIndex = 8;
-            this.totalNum_lbl.Text = "0.00$";
+            this.totalNum_lbl.Text = "0.00";
             // 
             // cajaRegistradoraTableAdapter
             // 
@@ -329,36 +325,11 @@ namespace Tienda
             this.idProductoDataGridViewTextBoxColumn,
             this.cantidadDataGridViewTextBoxColumn});
             this.cajaRegistradoraDataGridView.DataSource = this.cajaRegistradoraBindingSource;
-            this.cajaRegistradoraDataGridView.Location = new System.Drawing.Point(13, 64);
-            this.cajaRegistradoraDataGridView.Margin = new System.Windows.Forms.Padding(4);
+            this.cajaRegistradoraDataGridView.Location = new System.Drawing.Point(10, 52);
             this.cajaRegistradoraDataGridView.Name = "cajaRegistradoraDataGridView";
             this.cajaRegistradoraDataGridView.RowHeadersWidth = 51;
-            this.cajaRegistradoraDataGridView.Size = new System.Drawing.Size(725, 399);
+            this.cajaRegistradoraDataGridView.Size = new System.Drawing.Size(544, 324);
             this.cajaRegistradoraDataGridView.TabIndex = 2;
-            // 
-            // noArticuloDataGridViewTextBoxColumn
-            // 
-            this.noArticuloDataGridViewTextBoxColumn.DataPropertyName = "NoArticulo";
-            this.noArticuloDataGridViewTextBoxColumn.HeaderText = "NoArticulo";
-            this.noArticuloDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.noArticuloDataGridViewTextBoxColumn.Name = "noArticuloDataGridViewTextBoxColumn";
-            this.noArticuloDataGridViewTextBoxColumn.Width = 125;
-            // 
-            // idProductoDataGridViewTextBoxColumn
-            // 
-            this.idProductoDataGridViewTextBoxColumn.DataPropertyName = "IdProducto";
-            this.idProductoDataGridViewTextBoxColumn.HeaderText = "IdProducto";
-            this.idProductoDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.idProductoDataGridViewTextBoxColumn.Name = "idProductoDataGridViewTextBoxColumn";
-            this.idProductoDataGridViewTextBoxColumn.Width = 125;
-            // 
-            // cantidadDataGridViewTextBoxColumn
-            // 
-            this.cantidadDataGridViewTextBoxColumn.DataPropertyName = "Cantidad";
-            this.cantidadDataGridViewTextBoxColumn.HeaderText = "Cantidad";
-            this.cantidadDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.cantidadDataGridViewTextBoxColumn.Name = "cantidadDataGridViewTextBoxColumn";
-            this.cantidadDataGridViewTextBoxColumn.Width = 125;
             // 
             // cajaRegistradoraBindingSource
             // 
@@ -390,9 +361,10 @@ namespace Tienda
             this.productosComboBox.DataSource = this.productosBindingSource;
             this.productosComboBox.DisplayMember = "Nombre";
             this.productosComboBox.FormattingEnabled = true;
-            this.productosComboBox.Location = new System.Drawing.Point(751, 98);
+            this.productosComboBox.Location = new System.Drawing.Point(563, 80);
+            this.productosComboBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.productosComboBox.Name = "productosComboBox";
-            this.productosComboBox.Size = new System.Drawing.Size(300, 24);
+            this.productosComboBox.Size = new System.Drawing.Size(260, 21);
             this.productosComboBox.TabIndex = 9;
             this.productosComboBox.ValueMember = "IdProduto";
             // 
@@ -402,16 +374,41 @@ namespace Tienda
             | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanel1.Controls.Add(this.total_lbl);
             this.flowLayoutPanel1.Controls.Add(this.totalNum_lbl);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(751, 285);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(563, 232);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(300, 45);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(260, 37);
             this.flowLayoutPanel1.TabIndex = 11;
+            // 
+            // cantidadDataGridViewTextBoxColumn
+            // 
+            this.cantidadDataGridViewTextBoxColumn.DataPropertyName = "Cantidad";
+            this.cantidadDataGridViewTextBoxColumn.HeaderText = "Cantidad";
+            this.cantidadDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.cantidadDataGridViewTextBoxColumn.Name = "cantidadDataGridViewTextBoxColumn";
+            this.cantidadDataGridViewTextBoxColumn.Width = 125;
+            // 
+            // idProductoDataGridViewTextBoxColumn
+            // 
+            this.idProductoDataGridViewTextBoxColumn.DataPropertyName = "IdProducto";
+            this.idProductoDataGridViewTextBoxColumn.HeaderText = "IdProducto";
+            this.idProductoDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.idProductoDataGridViewTextBoxColumn.Name = "idProductoDataGridViewTextBoxColumn";
+            this.idProductoDataGridViewTextBoxColumn.Width = 125;
+            // 
+            // noArticuloDataGridViewTextBoxColumn
+            // 
+            this.noArticuloDataGridViewTextBoxColumn.DataPropertyName = "NoArticulo";
+            this.noArticuloDataGridViewTextBoxColumn.HeaderText = "NoArticulo";
+            this.noArticuloDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.noArticuloDataGridViewTextBoxColumn.Name = "noArticuloDataGridViewTextBoxColumn";
+            this.noArticuloDataGridViewTextBoxColumn.Width = 125;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1068, 476);
+            this.ClientSize = new System.Drawing.Size(836, 387);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.productosComboBox);
             this.Controls.Add(this.finalizarCompra_btn);
@@ -421,7 +418,6 @@ namespace Tienda
             this.Controls.Add(this.cajaRegistradoraBindingNavigator);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Krustacio Kaskarudo";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -473,15 +469,15 @@ namespace Tienda
         private System.Windows.Forms.BindingSource cajaRegistradoraBindingSource;
         private System.Windows.Forms.BindingSource clientesBindingSource;
         private TiendaDataSetTableAdapters.ClientesTableAdapter clientesTableAdapter;
-        private System.Windows.Forms.DataGridViewTextBoxColumn noArticuloDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn idProductoDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn nombreProductoDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn cantidadDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn precioUnitarioDataGridViewTextBoxColumn;
         private System.Windows.Forms.BindingSource productosBindingSource;
         private TiendaDataSetTableAdapters.ProductosTableAdapter productosTableAdapter;
         private System.Windows.Forms.ComboBox productosComboBox;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn noArticuloDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn idProductoDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cantidadDataGridViewTextBoxColumn;
     }
 }
 
