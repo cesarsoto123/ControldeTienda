@@ -1,10 +1,9 @@
 ﻿using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
-using QuestPDF.Previewer;
 using System;
 using System.IO;
-using System.Reflection;
+using System.Linq;
 using System.Windows.Forms;
 using Tienda.Formularios;
 using static Tienda.TiendaDataSet;
@@ -20,14 +19,14 @@ namespace Tienda
 
         static IContainer CellStyle(IContainer c) => c.BorderBottom(1).BorderColor(Colors.Grey.Lighten2).PaddingVertical(5);
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void CajaRegistradoraForm_Load(object sender, EventArgs e)
         {
             // TODO: esta línea de código carga datos en la tabla 'tiendaDataSet.Productos' Puede moverla o quitarla según sea necesario.
             this.productosTableAdapter.Fill(this.tiendaDataSet.Productos);
-            // TODO: esta línea de código carga datos en la tabla 'tiendaDataSet.Clientes' Puede moverla o quitarla según sea necesario.
-            this.clientesTableAdapter.Fill(this.tiendaDataSet.Clientes);
             // TODO: esta línea de código carga datos en la tabla 'tiendaDataSet.CajaRegistradora' Puede moverla o quitarla según sea necesario.
             this.cajaRegistradoraTableAdapter.Fill(this.tiendaDataSet.CajaRegistradora);
+            // TODO: esta línea de código carga datos en la tabla 'tiendaDataSet.Inventario' Puede moverla o quitarla según sea necesario.
+            this.inventarioTableAdapter.Fill(this.tiendaDataSet.Inventario);
         }
 
         private void SaveItemClick(object sender, EventArgs e)
@@ -36,7 +35,6 @@ namespace Tienda
             this.cajaRegistradoraBindingSource.EndEdit();
             this.tableAdapterManager.UpdateAll(this.tiendaDataSet);
         }
-
 
         private void InventarioButtonClick(object sender, EventArgs e)
         {
@@ -54,9 +52,20 @@ namespace Tienda
         {
             int idProducto = Convert.ToInt32(productosComboBox.SelectedValue);
 
+            var inventario = this.inventarioTableAdapter.GetData().FirstOrDefault(f => f.IdProducto == idProducto);
+
+            if (inventario == null || inventario.Stock == 0)
+            {
+                MessageBox.Show("No hay existencias de este producto.");
+                return;
+            }
+
             try
             {
                 this.cajaRegistradoraTableAdapter.Insert(idProducto, 1);
+                var product = this.inventarioTableAdapter.GetData().FirstOrDefault(p => p.IdProducto == idProducto);
+                product.Stock -= 1;
+                this.inventarioTableAdapter.UpdateStock(product.Stock, product.IdProducto);
                 this.cajaRegistradoraTableAdapter.Update(this.tiendaDataSet.CajaRegistradora);
             }
             catch (Exception ex)
@@ -170,6 +179,29 @@ namespace Tienda
             cajaRegistradoraDataGridView.Refresh();
 
             totalNum_lbl.Text = "0.00";
+        }
+
+        private void ProductosButtonClick(object sender, EventArgs e)
+        {
+            ProductosForm productos = new ProductosForm();
+            productos.Show();
+        }
+
+        private void DeleteProductFromCaja(object sender, DataGridViewRowCancelEventArgs e)
+        {
+            var noArticulo = e.Row.Cells[0].Value.ToString();
+            var idProducto = e.Row.Cells[1].Value.ToString();
+            var id = Convert.ToInt32(noArticulo);
+            var idProduct = Convert.ToInt32(idProducto);
+            this.cajaRegistradoraTableAdapter.DeleteItem(id);
+
+            var productoInventario = this.inventarioTableAdapter.GetData().FirstOrDefault(p => p.IdProducto == idProduct);
+            var producto = this.productosTableAdapter.GetData().FirstOrDefault(p => p.IdProduto == idProduct);
+            productoInventario.Stock += 1;
+            this.inventarioTableAdapter.UpdateStock(productoInventario.Stock, productoInventario.IdProducto);
+
+            var total = Convert.ToDecimal(totalNum_lbl.Text) - producto.Precio;
+            totalNum_lbl.Text = total.ToString();
         }
     }
 }
