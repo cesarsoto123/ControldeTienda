@@ -280,10 +280,12 @@ namespace Tienda
             this.metodoDePagoComboBox.Size = new System.Drawing.Size(131, 26);
             this.metodoDePagoComboBox.TabIndex = 12;
             this.metodoDePagoComboBox.Text = "Metodo de pago";
+            this.metodoDePagoComboBox.TextChanged += new System.EventHandler(this.metodoDePagoComboBox_TextChanged);
             // 
             // efectivoRecibido_lbl
             // 
             this.efectivoRecibido_lbl.AutoSize = true;
+            this.efectivoRecibido_lbl.Enabled = false;
             this.efectivoRecibido_lbl.Font = new System.Drawing.Font("Modern No. 20", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.efectivoRecibido_lbl.Location = new System.Drawing.Point(703, 252);
             this.efectivoRecibido_lbl.Name = "efectivoRecibido_lbl";
@@ -293,11 +295,13 @@ namespace Tienda
             // 
             // efectivoRecibido_tbx
             // 
+            this.efectivoRecibido_tbx.Enabled = false;
             this.efectivoRecibido_tbx.Font = new System.Drawing.Font("Modern No. 20", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.efectivoRecibido_tbx.Location = new System.Drawing.Point(833, 250);
             this.efectivoRecibido_tbx.Name = "efectivoRecibido_tbx";
             this.efectivoRecibido_tbx.Size = new System.Drawing.Size(100, 25);
             this.efectivoRecibido_tbx.TabIndex = 14;
+            this.efectivoRecibido_tbx.Text = "0";
             // 
             // CajaRegistradoraForm
             // 
