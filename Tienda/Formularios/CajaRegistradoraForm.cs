@@ -1,4 +1,10 @@
-﻿using System;
+﻿using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
+using QuestPDF.Previewer;
+using System;
+using System.IO;
+using System.Reflection;
 using System.Windows.Forms;
 using Tienda.Formularios;
 using static Tienda.TiendaDataSet;
@@ -11,6 +17,8 @@ namespace Tienda
         {
             InitializeComponent();
         }
+
+        static IContainer CellStyle(IContainer c) => c.BorderBottom(1).BorderColor(Colors.Grey.Lighten2).PaddingVertical(5);
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -66,11 +74,102 @@ namespace Tienda
 
         private void FinalizarCompraButtonClick(object sender, EventArgs e)
         {
-            foreach (var row in this.cajaRegistradoraTableAdapter.GetData())
+            decimal total = 0;
+            var data = this.cajaRegistradoraTableAdapter.GetData();
+
+            var headerStyle = TextStyle.Default.SemiBold();
+
+            var pdf = Document.Create(container =>
             {
-                ProductosRow producto = this.productosTableAdapter.GetData().FindByIdProduto(row.IdProducto);
-                Console.WriteLine($"{producto.Nombre} : {producto.Precio}");
-            }
+                container.Page(page =>
+                {
+                    page.Size(PageSizes.A4);
+                    page.Margin(2, Unit.Centimetre);
+                    page.PageColor(Colors.White);
+
+                    page.Header()
+                        .Container()
+                        .Row(row =>
+                        {
+                            row.RelativeItem().Column(column =>
+                            {
+                                column.Item().Text("Ticket").Style(new TextStyle().ExtraBold());
+
+                                column.Item().Text(text =>
+                                {
+                                    text.Span("Fecha: ").SemiBold();
+                                    text.Span($"{DateTime.Now:d}");
+                                });
+                            });
+
+                            row.ConstantItem(100).Height(50).Placeholder();
+                        });
+
+                    page.Content()
+                        .Container()
+                        .PaddingVertical(40)
+                        .Column(column =>
+                        {
+                            column.Spacing(20);
+
+                            column.Item()
+                                .Container()
+                                .Table(table =>
+                                {
+                                    table.ColumnsDefinition(columns =>
+                                    {
+                                        columns.ConstantColumn(25);
+                                        columns.RelativeColumn(2);
+                                        columns.RelativeColumn(4);
+                                        columns.RelativeColumn();
+                                        columns.RelativeColumn();
+                                    });
+
+                                    table.Header(header =>
+                                    {
+                                        header.Cell().Text("#");
+                                        header.Cell().Text("Producto").Style(headerStyle);
+                                        header.Cell().AlignRight().Text("Precio unitario").Style(headerStyle);
+                                        header.Cell().AlignRight().Text("Cantidad").Style(headerStyle);
+                                        header.Cell().AlignRight().Text("Total").Style(headerStyle);
+
+                                        header.Cell().ColumnSpan(5).PaddingTop(5).BorderBottom(1).BorderColor(Colors.Black);
+                                    });
+
+                                    for (int i = 0; i < data.Count; i++)
+                                    {
+                                        ProductosRow producto = this.productosTableAdapter.GetData().FindByIdProduto(data[i].IdProducto);
+
+                                        table.Cell().Element(CellStyle).Text($"{i}");
+                                        table.Cell().Element(CellStyle).Text(producto.Nombre);
+                                        table.Cell().Element(CellStyle).AlignRight().Text($"{producto.Precio:C}");
+                                        table.Cell().Element(CellStyle).AlignRight().Text($"{data[i].Cantidad}");
+                                        table.Cell().Element(CellStyle).AlignRight().Text($"{producto.Precio * data[i].Cantidad:C}");
+
+                                        total += producto.Precio * data[i].Cantidad;
+                                    }
+                                });
+
+                            column.Item().PaddingRight(5).AlignRight().Text($"Total: {total:C}").SemiBold();
+                        });
+                });
+            }).GeneratePdf();
+
+            var file = File.OpenWrite("ticket.pdf");
+            var writer = new BinaryWriter(file);
+            writer.Write(pdf);
+            file.Close();
+
+            System.Diagnostics.Process.Start("ticket.pdf");
+
+            MessageBox.Show("Compra exitosa y ticket generado.");
+
+            this.cajaRegistradoraTableAdapter.DeleteAll();
+
+            cajaRegistradoraDataGridView.DataSource = this.cajaRegistradoraTableAdapter.GetData();
+            cajaRegistradoraDataGridView.Refresh();
+
+            totalNum_lbl.Text = "0.00";
         }
     }
 }
