@@ -34,6 +34,7 @@ namespace Tienda
             this.cajaRegistradoraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.productosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.inventarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ticketsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ayudaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tiendaDataSet = new Tienda.TiendaDataSet();
             this.idProducto_lbl = new System.Windows.Forms.Label();
@@ -43,6 +44,7 @@ namespace Tienda
             this.totalNum_lbl = new System.Windows.Forms.Label();
             this.cajaRegistradoraTableAdapter = new Tienda.TiendaDataSetTableAdapters.CajaRegistradoraTableAdapter();
             this.inventarioTableAdapter = new Tienda.TiendaDataSetTableAdapters.InventarioTableAdapter();
+            this.ticketTableAdapter = new Tienda.TiendaDataSetTableAdapters.TicketTableAdapter();
             this.tableAdapterManager = new Tienda.TiendaDataSetTableAdapters.TableAdapterManager();
             this.cajaRegistradoraDataGridView = new System.Windows.Forms.DataGridView();
             this.noArticuloDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -56,8 +58,6 @@ namespace Tienda
             this.metodoDePagoComboBox = new System.Windows.Forms.ComboBox();
             this.efectivoRecibido_lbl = new System.Windows.Forms.Label();
             this.efectivoRecibido_tbx = new System.Windows.Forms.TextBox();
-            this.idCuenta = new System.Windows.Forms.Label();
-            this.idCuenta_tbx = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tiendaDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cajaRegistradoraDataGridView)).BeginInit();
@@ -73,6 +73,7 @@ namespace Tienda
             this.cajaRegistradoraToolStripMenuItem,
             this.productosToolStripMenuItem,
             this.inventarioToolStripMenuItem,
+            this.ticketsToolStripMenuItem,
             this.ayudaToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -100,6 +101,13 @@ namespace Tienda
             this.inventarioToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
             this.inventarioToolStripMenuItem.Text = "Inventario";
             this.inventarioToolStripMenuItem.Click += new System.EventHandler(this.InventarioButtonClick);
+            // 
+            // ticketsToolStripMenuItem
+            // 
+            this.ticketsToolStripMenuItem.Name = "ticketsToolStripMenuItem";
+            this.ticketsToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
+            this.ticketsToolStripMenuItem.Text = "Tickets";
+            this.ticketsToolStripMenuItem.Click += new System.EventHandler(this.TicketButtonClick);
             // 
             // ayudaToolStripMenuItem
             // 
@@ -177,13 +185,17 @@ namespace Tienda
             // 
             this.inventarioTableAdapter.ClearBeforeFill = true;
             // 
+            // ticketTableAdapter
+            // 
+            this.ticketTableAdapter.ClearBeforeFill = true;
+            // 
             // tableAdapterManager
             // 
             this.tableAdapterManager.BackupDataSetBeforeUpdate = false;
             this.tableAdapterManager.CajaRegistradoraTableAdapter = this.cajaRegistradoraTableAdapter;
             this.tableAdapterManager.InventarioTableAdapter = this.inventarioTableAdapter;
             this.tableAdapterManager.ProductosTableAdapter = null;
-            this.tableAdapterManager.TicketTableAdapter = null;
+            this.tableAdapterManager.TicketTableAdapter = this.ticketTableAdapter;
             this.tableAdapterManager.UpdateOrder = Tienda.TiendaDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
             this.tableAdapterManager.VentasTableAdapter = null;
             // 
@@ -307,31 +319,11 @@ namespace Tienda
             this.efectivoRecibido_tbx.TabIndex = 14;
             this.efectivoRecibido_tbx.Text = "0";
             // 
-            // idCuenta
-            // 
-            this.idCuenta.AutoSize = true;
-            this.idCuenta.Font = new System.Drawing.Font("Modern No. 20", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.idCuenta.Location = new System.Drawing.Point(566, 317);
-            this.idCuenta.Name = "idCuenta";
-            this.idCuenta.Size = new System.Drawing.Size(76, 18);
-            this.idCuenta.TabIndex = 15;
-            this.idCuenta.Text = "Id Cuenta:";
-            // 
-            // idCuenta_tbx
-            // 
-            this.idCuenta_tbx.Font = new System.Drawing.Font("Modern No. 20", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.idCuenta_tbx.Location = new System.Drawing.Point(648, 314);
-            this.idCuenta_tbx.Name = "idCuenta_tbx";
-            this.idCuenta_tbx.Size = new System.Drawing.Size(100, 25);
-            this.idCuenta_tbx.TabIndex = 16;
-            // 
             // CajaRegistradoraForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(944, 479);
-            this.Controls.Add(this.idCuenta_tbx);
-            this.Controls.Add(this.idCuenta);
             this.Controls.Add(this.efectivoRecibido_tbx);
             this.Controls.Add(this.efectivoRecibido_lbl);
             this.Controls.Add(this.metodoDePagoComboBox);
@@ -390,8 +382,7 @@ namespace Tienda
         private System.Windows.Forms.Label efectivoRecibido_lbl;
         private System.Windows.Forms.TextBox efectivoRecibido_tbx;
         private System.Windows.Forms.ToolStripMenuItem productosToolStripMenuItem;
-        private System.Windows.Forms.Label idCuenta;
-        private System.Windows.Forms.TextBox idCuenta_tbx;
+        private System.Windows.Forms.ToolStripMenuItem ticketsToolStripMenuItem;
     }
 }
 

@@ -27,6 +27,8 @@ namespace Tienda
             this.cajaRegistradoraTableAdapter.Fill(this.tiendaDataSet.CajaRegistradora);
             // TODO: esta línea de código carga datos en la tabla 'tiendaDataSet.Inventario' Puede moverla o quitarla según sea necesario.
             this.inventarioTableAdapter.Fill(this.tiendaDataSet.Inventario);
+            // TODO: esta línea de código carga datos en la tabla 'tiendaDataSet.Inventario' Puede moverla o quitarla según sea necesario.
+            this.ticketTableAdapter.Fill(this.tiendaDataSet.Ticket);
         }
 
         private void SaveItemClick(object sender, EventArgs e)
@@ -87,7 +89,7 @@ namespace Tienda
             var data = this.cajaRegistradoraTableAdapter.GetData();
 
             var headerStyle = TextStyle.Default.SemiBold();
-            if (totalNum_lbl.Text == "0.00")
+            if (!this.cajaRegistradoraTableAdapter.GetData().Any())
             {
                 MessageBox.Show("Para generar un ticket primeramente de sebe de agregar un producto a la caja registradora");
             }
@@ -96,229 +98,134 @@ namespace Tienda
                 if (metodoDePagoComboBox.Text == "Metodo de pago")
                 {
                     MessageBox.Show("favor de llenar todos los espacios correspondientes");
+                    return;
                 }
-                else
+
+                if (metodoDePagoComboBox.Text == "Efectivo")
                 {
-                    DateTime fecha = DateTime.Now;
-                    int fechaComoEntero = fecha.Year * 10000 + fecha.Month * 100 + fecha.Day;
-                    int idCuenta = Convert.ToInt32(idCuenta_tbx.Text);
-                    int folio = Convert.ToInt32(idCuenta_tbx.Text + Convert.ToString(fechaComoEntero));
-                    this.ticketTableAdapter.Insertar(folio, idCuenta, DateTime.Now, total);
-                    this.ticketTableAdapter.Update(this.tiendaDataSet.Ticket);
-                    if (metodoDePagoComboBox.Text == "Efectivo")
+                    float dineroRecibido = Convert.ToSingle(efectivoRecibido_tbx.Text);
+                    if (dineroRecibido < Convert.ToSingle(totalNum_lbl.Text))
                     {
-                        float dineroRecibido = Convert.ToSingle(efectivoRecibido_tbx.Text);
-                        if (dineroRecibido < Convert.ToSingle(totalNum_lbl.Text))
-                        {
-                            MessageBox.Show("La transaccion no puede ser completada faltan: $" + Convert.ToString(Convert.ToSingle(totalNum_lbl.Text) - dineroRecibido));
-                        }
-                        else
-                        {
-                            float cambio = Convert.ToSingle(efectivoRecibido_tbx.Text)-Convert.ToSingle(totalNum_lbl.Text)  ;
-                           
-                            var pdf = Document.Create(container =>
-                            {
-                                container.Page(page =>
-                                {
-                                    page.Size(PageSizes.A4);
-                                    page.Margin(2, Unit.Centimetre);
-                                    page.PageColor(Colors.White);
-
-                                    page.Header()
-                                        .Container()
-                                        .Row(row =>
-                                        {
-                                            row.RelativeItem().Column(column =>
-                                            {
-                                                column.Item().Text("Ticket").Style(new TextStyle().ExtraBold());
-
-                                                column.Item().Text(text =>
-                                                {
-                                                    text.Span("Fecha: ").SemiBold();
-                                                    text.Span($"{DateTime.Now:d}");
-                                                });
-                                            });
-
-                                            row.ConstantItem(100).Height(50).Placeholder();
-                                        });
-
-                                    page.Content()
-                                        .Container()
-                                        .PaddingVertical(40)
-                                        .Column(column =>
-                                        {
-                                            column.Spacing(20);
-
-                                            column.Item()
-                                                .Container()
-                                                .Table(table =>
-                                                {
-                                                    table.ColumnsDefinition(columns =>
-                                                    {
-                                                        columns.ConstantColumn(25);
-                                                        columns.RelativeColumn(2);
-                                                        columns.RelativeColumn(4);
-                                                        columns.RelativeColumn();
-                                                        columns.RelativeColumn();
-                                                    });
-
-                                                    table.Header(header =>
-                                                    {
-                                                        header.Cell().Text("#");
-                                                        header.Cell().Text("Producto").Style(headerStyle);
-                                                        header.Cell().AlignRight().Text("Precio unitario").Style(headerStyle);
-                                                        header.Cell().AlignRight().Text("Cantidad").Style(headerStyle);
-                                                        header.Cell().AlignRight().Text("Total").Style(headerStyle);
-
-                                                        header.Cell().ColumnSpan(5).PaddingTop(5).BorderBottom(1).BorderColor(Colors.Black);
-                                                    });
-
-                                                    for (int i = 0; i < data.Count; i++)
-                                                    {
-                                                        ProductosRow producto = this.productosTableAdapter.GetData().FindByIdProduto(data[i].IdProducto);
-
-                                                        table.Cell().Element(CellStyle).Text($"{i}");
-                                                        table.Cell().Element(CellStyle).Text(producto.Nombre);
-                                                        table.Cell().Element(CellStyle).AlignRight().Text($"{producto.Precio:C}");
-                                                        table.Cell().Element(CellStyle).AlignRight().Text($"{data[i].Cantidad}");
-                                                        table.Cell().Element(CellStyle).AlignRight().Text($"{producto.Precio * data[i].Cantidad:C}");
-
-                                                        total += producto.Precio * data[i].Cantidad;
-                                                    }
-                                                });
-                                            column.Item().PaddingRight(5).AlignRight().Text($"Metodo de pago: {metodoDePagoComboBox.Text:C}").SemiBold();
-                                            column.Item().PaddingRight(5).AlignRight().Text($"Efectivo recibido: {Convert.ToDecimal(efectivoRecibido_tbx.Text):C}").SemiBold();
-                                            column.Item().PaddingRight(5).AlignRight().Text($"Total: {total:C}").SemiBold();
-                                            column.Item().PaddingRight(5).AlignRight().Text($"cambio: {cambio:C}").SemiBold();  
-                                           
-                                            
-                                        });
-                                });
-                            }).GeneratePdf();
-
-                            var file = File.OpenWrite("ticket.pdf");
-                            var writer = new BinaryWriter(file);
-                            writer.Write(pdf);
-                            file.Close();
-
-                            System.Diagnostics.Process.Start("ticket.pdf");
-
-                            MessageBox.Show("Compra exitosa y ticket generado.");
-
-                            this.cajaRegistradoraTableAdapter.DeleteAll();
-
-                            cajaRegistradoraDataGridView.DataSource = this.cajaRegistradoraTableAdapter.GetData();
-                            cajaRegistradoraDataGridView.Refresh();
-
-                            totalNum_lbl.Text = "0.00";
-                            efectivoRecibido_tbx.Text = "0.00";
-                            metodoDePagoComboBox.Text = "Metdodo de pago";
-                        }
-
-                    }
-                    else
-                    {
-                        var pdf = Document.Create(container =>
-                        {
-                            container.Page(page =>
-                            {
-                                page.Size(PageSizes.A4);
-                                page.Margin(2, Unit.Centimetre);
-                                page.PageColor(Colors.White);
-
-                                page.Header()
-                                    .Container()
-                                    .Row(row =>
-                                    {
-                                        row.RelativeItem().Column(column =>
-                                        {
-                                            column.Item().Text("Ticket").Style(new TextStyle().ExtraBold());
-
-                                            column.Item().Text(text =>
-                                            {
-                                                text.Span("Fecha: ").SemiBold();
-                                                text.Span($"{DateTime.Now:d}");
-                                            });
-                                        });
-
-                                        row.ConstantItem(100).Height(50).Placeholder();
-                                    });
-
-                                page.Content()
-                                    .Container()
-                                    .PaddingVertical(40)
-                                    .Column(column =>
-                                    {
-                                        column.Spacing(20);
-
-                                        column.Item()
-                                            .Container()
-                                            .Table(table =>
-                                            {
-                                                table.ColumnsDefinition(columns =>
-                                                {
-                                                    columns.ConstantColumn(25);
-                                                    columns.RelativeColumn(2);
-                                                    columns.RelativeColumn(4);
-                                                    columns.RelativeColumn();
-                                                    columns.RelativeColumn();
-                                                });
-
-                                                table.Header(header =>
-                                                {
-                                                    header.Cell().Text("#");
-                                                    header.Cell().Text("Producto").Style(headerStyle);
-                                                    header.Cell().AlignRight().Text("Precio unitario").Style(headerStyle);
-                                                    header.Cell().AlignRight().Text("Cantidad").Style(headerStyle);
-                                                    header.Cell().AlignRight().Text("Total").Style(headerStyle);
-
-                                                    header.Cell().ColumnSpan(5).PaddingTop(5).BorderBottom(1).BorderColor(Colors.Black);
-                                                });
-
-                                                for (int i = 0; i < data.Count; i++)
-                                                {
-                                                    ProductosRow producto = this.productosTableAdapter.GetData().FindByIdProduto(data[i].IdProducto);
-
-                                                    table.Cell().Element(CellStyle).Text($"{i}");
-                                                    table.Cell().Element(CellStyle).Text(producto.Nombre);
-                                                    table.Cell().Element(CellStyle).AlignRight().Text($"{producto.Precio:C}");
-                                                    table.Cell().Element(CellStyle).AlignRight().Text($"{data[i].Cantidad}");
-                                                    table.Cell().Element(CellStyle).AlignRight().Text($"{producto.Precio * data[i].Cantidad:C}");
-
-                                                    total += producto.Precio * data[i].Cantidad;
-                                                }
-                                            });
-
-                                        column.Item().PaddingRight(5).AlignRight().Text($"Metodo de pago: {metodoDePagoComboBox.Text:C}").SemiBold();
-                                        column.Item().PaddingRight(5).AlignRight().Text($"Dinero recibido: {total:C}").SemiBold();
-                                        column.Item().PaddingRight(5).AlignRight().Text($"Total: {total:C}").SemiBold();
-                                        column.Item().PaddingRight(5).AlignRight().Text($"cambio: {0:C}").SemiBold();
-                                    });
-                            });
-                        }).GeneratePdf();
-
-                        var file = File.OpenWrite("ticket.pdf");
-                        var writer = new BinaryWriter(file);
-                        writer.Write(pdf);
-                        file.Close();
-
-                        System.Diagnostics.Process.Start("ticket.pdf");
-
-                        MessageBox.Show("Compra exitosa y ticket generado.");
-
-                        this.cajaRegistradoraTableAdapter.DeleteAll();
-
-                        cajaRegistradoraDataGridView.DataSource = this.cajaRegistradoraTableAdapter.GetData();
-                        cajaRegistradoraDataGridView.Refresh();
-
-                        totalNum_lbl.Text = "0.00";
-                        efectivoRecibido_tbx.Text = "0.00";
-                        metodoDePagoComboBox.Text = "Metdodo de pago";
+                        MessageBox.Show("La transaccion no puede ser completada faltan: $" + Convert.ToString(Convert.ToSingle(totalNum_lbl.Text) - dineroRecibido));
+                        return;
                     }
                 }
 
-            }
+                var pdf = Document.Create(container =>
+                {
+                    container.Page(page =>
+                    {
+                        page.Size(PageSizes.A4);
+                        page.Margin(2, Unit.Centimetre);
+                        page.PageColor(Colors.White);
 
+                        page.Header()
+                            .Container()
+                            .Row(row =>
+                            {
+                                row.RelativeItem().Column(column =>
+                                {
+                                    column.Item().Text("Ticket").Style(new TextStyle().ExtraBold());
+
+                                    column.Item().Text(text =>
+                                    {
+                                        text.Span("Fecha: ").SemiBold();
+                                        text.Span($"{DateTime.Now:d}");
+                                    });
+                                });
+
+                                row.ConstantItem(100).Height(50).Placeholder();
+                            });
+
+                        page.Content()
+                            .Container()
+                            .PaddingVertical(40)
+                            .Column(column =>
+                            {
+                                column.Spacing(20);
+
+                                column.Item()
+                                    .Container()
+                                    .Table(table =>
+                                    {
+                                        table.ColumnsDefinition(columns =>
+                                        {
+                                            columns.ConstantColumn(25);
+                                            columns.RelativeColumn(2);
+                                            columns.RelativeColumn(4);
+                                            columns.RelativeColumn();
+                                            columns.RelativeColumn();
+                                        });
+
+                                        table.Header(header =>
+                                        {
+                                            header.Cell().Text("#");
+                                            header.Cell().Text("Producto").Style(headerStyle);
+                                            header.Cell().AlignRight().Text("Precio unitario").Style(headerStyle);
+                                            header.Cell().AlignRight().Text("Cantidad").Style(headerStyle);
+                                            header.Cell().AlignRight().Text("Total").Style(headerStyle);
+
+                                            header.Cell().ColumnSpan(5).PaddingTop(5).BorderBottom(1).BorderColor(Colors.Black);
+                                        });
+
+                                        for (int i = 0; i < data.Count; i++)
+                                        {
+                                            ProductosRow producto = this.productosTableAdapter.GetData().FindByIdProduto(data[i].IdProducto);
+
+                                            table.Cell().Element(CellStyle).Text($"{i}");
+                                            table.Cell().Element(CellStyle).Text(producto.Nombre);
+                                            table.Cell().Element(CellStyle).AlignRight().Text($"{producto.Precio:C}");
+                                            table.Cell().Element(CellStyle).AlignRight().Text($"{data[i].Cantidad}");
+                                            table.Cell().Element(CellStyle).AlignRight().Text($"{producto.Precio * data[i].Cantidad:C}");
+
+                                            total += producto.Precio * data[i].Cantidad;
+                                        }
+                                    });
+
+                                column.Item().PaddingRight(5).AlignRight().Text($"Metodo de pago: {metodoDePagoComboBox.Text:C}").SemiBold();
+
+                                if (metodoDePagoComboBox.Text == "Efectivo")
+                                    column.Item().PaddingRight(5).AlignRight().Text($"Efectivo recibido: {Convert.ToDecimal(efectivoRecibido_tbx.Text):C}").SemiBold();
+                                else
+                                    column.Item().PaddingRight(5).AlignRight().Text($"Dinero recibido: {total:C}").SemiBold();
+
+                                column.Item().PaddingRight(5).AlignRight().Text($"Total: {total:C}").SemiBold();
+                                if (metodoDePagoComboBox.Text == "Efectivo")
+                                {
+                                    float cambio = Convert.ToSingle(efectivoRecibido_tbx.Text) - Convert.ToSingle(totalNum_lbl.Text);
+                                    column.Item().PaddingRight(5).AlignRight().Text($"Cambio: {cambio:C}").SemiBold();
+                                }
+                                else
+                                {
+                                    decimal cambio = total - Convert.ToDecimal(totalNum_lbl.Text);
+                                    column.Item().PaddingRight(5).AlignRight().Text($"Cambio: {cambio:C}").SemiBold();
+                                }
+
+                            });
+                    });
+                }).GeneratePdf();
+
+                var file = File.OpenWrite("ticket.pdf");
+                var writer = new BinaryWriter(file);
+                writer.Write(pdf);
+                file.Close();
+
+                System.Diagnostics.Process.Start("ticket.pdf");
+
+                MessageBox.Show("Compra exitosa y ticket generado.");
+
+                this.cajaRegistradoraTableAdapter.DeleteAll();
+
+                cajaRegistradoraDataGridView.DataSource = this.cajaRegistradoraTableAdapter.GetData();
+                cajaRegistradoraDataGridView.Refresh();
+
+                totalNum_lbl.Text = "0.00";
+                efectivoRecibido_tbx.Text = "0.00";
+                metodoDePagoComboBox.Text = "Metdodo de pago";
+
+                this.ticketTableAdapter.Insertar(Guid.NewGuid().ToString(), DateTime.Now, total);
+                this.ticketTableAdapter.Update(this.tiendaDataSet.Ticket);
+            }
         }
 
         public static void generar_Ticket()
@@ -361,6 +268,12 @@ namespace Tienda
                 efectivoRecibido_lbl.Enabled = false;
                 efectivoRecibido_tbx.Enabled = false;
             }
+        }
+
+        private void TicketButtonClick(object sender, EventArgs e)
+        {
+            TicketsForm tickets = new TicketsForm();
+            tickets.Show();
         }
     }
 }
