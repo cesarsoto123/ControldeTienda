@@ -12,10 +12,14 @@ namespace Tienda
 {
     public partial class CajaRegistradoraForm : Form
     {
+ 
+        Guid uuid = Guid.NewGuid();
         public CajaRegistradoraForm()
         {
             InitializeComponent();
         }
+
+        
 
         static IContainer CellStyle(IContainer c) => c.BorderBottom(1).BorderColor(Colors.Grey.Lighten2).PaddingVertical(5);
 
@@ -29,6 +33,7 @@ namespace Tienda
             this.inventarioTableAdapter.Fill(this.tiendaDataSet.Inventario);
             // TODO: esta línea de código carga datos en la tabla 'tiendaDataSet.Inventario' Puede moverla o quitarla según sea necesario.
             this.ticketTableAdapter.Fill(this.tiendaDataSet.Ticket);
+            this.ventasTableAdapter.Fill(this.tiendaDataSet.Ventas);
         }
 
         private void SaveItemClick(object sender, EventArgs e)
@@ -52,6 +57,11 @@ namespace Tienda
 
         private void AddProductButtonClick(object sender, EventArgs e)
         {
+            if(metodoDePagoComboBox.Text=="Metodo de pago")
+            {
+                MessageBox.Show("Antes de ingresar cualquier producto debe de especificar el metodo de pago");
+                return;
+            }
             int idProducto = Convert.ToInt32(productosComboBox.SelectedValue);
 
             var inventario = this.inventarioTableAdapter.GetData().FirstOrDefault(f => f.IdProducto == idProducto);
@@ -65,9 +75,11 @@ namespace Tienda
             try
             {
                 this.cajaRegistradoraTableAdapter.Insert(idProducto, 1);
+                this.ventasTableAdapter.Insertar(uuid.ToString(), idProducto, metodoDePagoComboBox.Text, 1);
                 var product = this.inventarioTableAdapter.GetData().FirstOrDefault(p => p.IdProducto == idProducto);
                 product.Stock -= 1;
                 this.inventarioTableAdapter.UpdateStock(product.Stock, product.IdProducto);
+                this.ventasTableAdapter.Update(this.tiendaDataSet.Ventas);
                 this.cajaRegistradoraTableAdapter.Update(this.tiendaDataSet.CajaRegistradora);
             }
             catch (Exception ex)
@@ -85,7 +97,7 @@ namespace Tienda
 
         private void FinalizarCompraButtonClick(object sender, EventArgs e)
         {
-            decimal total = 0;
+           
             var data = this.cajaRegistradoraTableAdapter.GetData();
 
             var headerStyle = TextStyle.Default.SemiBold();
@@ -110,6 +122,10 @@ namespace Tienda
                         return;
                     }
                 }
+                decimal total = Convert.ToDecimal(totalNum_lbl.Text);
+
+                this.ticketTableAdapter.Insertar(uuid.ToString(), DateTime.Now, total);
+                this.ticketTableAdapter.Update(this.tiendaDataSet.Ticket);
 
                 var pdf = Document.Create(container =>
                 {
@@ -178,7 +194,7 @@ namespace Tienda
                                             table.Cell().Element(CellStyle).AlignRight().Text($"{data[i].Cantidad}");
                                             table.Cell().Element(CellStyle).AlignRight().Text($"{producto.Precio * data[i].Cantidad:C}");
 
-                                            total += producto.Precio * data[i].Cantidad;
+                                            
                                         }
                                     });
 
@@ -200,6 +216,7 @@ namespace Tienda
                                     decimal cambio = total - Convert.ToDecimal(totalNum_lbl.Text);
                                     column.Item().PaddingRight(5).AlignRight().Text($"Cambio: {cambio:C}").SemiBold();
                                 }
+                                column.Item().PaddingRight(5).AlignLeft().Text($"Folio: {uuid.ToString():C}").SemiBold();
 
                             });
                     });
@@ -213,7 +230,7 @@ namespace Tienda
                 System.Diagnostics.Process.Start("ticket.pdf");
 
                 MessageBox.Show("Compra exitosa y ticket generado.");
-
+                
                 this.cajaRegistradoraTableAdapter.DeleteAll();
 
                 cajaRegistradoraDataGridView.DataSource = this.cajaRegistradoraTableAdapter.GetData();
@@ -223,8 +240,7 @@ namespace Tienda
                 efectivoRecibido_tbx.Text = "0.00";
                 metodoDePagoComboBox.Text = "Metdodo de pago";
 
-                this.ticketTableAdapter.Insertar(Guid.NewGuid().ToString(), DateTime.Now, total);
-                this.ticketTableAdapter.Update(this.tiendaDataSet.Ticket);
+               
             }
         }
 
@@ -236,6 +252,7 @@ namespace Tienda
         private void ProductosButtonClick(object sender, EventArgs e)
         {
             ProductosForm productos = new ProductosForm();
+            
             productos.Show();
         }
 
@@ -246,7 +263,7 @@ namespace Tienda
             var id = Convert.ToInt32(noArticulo);
             var idProduct = Convert.ToInt32(idProducto);
             this.cajaRegistradoraTableAdapter.DeleteItem(id);
-
+            this.ventasTableAdapter.DelateItem(idProduct);
             var productoInventario = this.inventarioTableAdapter.GetData().FirstOrDefault(p => p.IdProducto == idProduct);
             var producto = this.productosTableAdapter.GetData().FirstOrDefault(p => p.IdProduto == idProduct);
             productoInventario.Stock += 1;
@@ -274,6 +291,12 @@ namespace Tienda
         {
             TicketsForm tickets = new TicketsForm();
             tickets.Show();
+        }
+
+        private void ventasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            VentasForm ventas = new VentasForm();
+            ventas.Show();
         }
     }
 }

@@ -17,11 +17,23 @@ namespace Tienda
             InitializeComponent();
         }
 
+
+
+
+       
+
+
         private void productosBindingNavigatorSaveItem_Click(object sender, EventArgs e)
         {
             this.Validate();
             this.productosBindingSource.EndEdit();
             this.tableAdapterManager.UpdateAll(this.tiendaDataSet);
+            System.Diagnostics.Process.Start(Application.ExecutablePath);
+            Application.Exit();
+
+
+
+
 
         }
 

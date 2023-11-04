@@ -45,6 +45,7 @@ namespace Tienda
             this.cajaRegistradoraTableAdapter = new Tienda.TiendaDataSetTableAdapters.CajaRegistradoraTableAdapter();
             this.inventarioTableAdapter = new Tienda.TiendaDataSetTableAdapters.InventarioTableAdapter();
             this.ticketTableAdapter = new Tienda.TiendaDataSetTableAdapters.TicketTableAdapter();
+            this.ventasTableAdapter = new Tienda.TiendaDataSetTableAdapters.VentasTableAdapter();
             this.tableAdapterManager = new Tienda.TiendaDataSetTableAdapters.TableAdapterManager();
             this.cajaRegistradoraDataGridView = new System.Windows.Forms.DataGridView();
             this.noArticuloDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -58,6 +59,7 @@ namespace Tienda
             this.metodoDePagoComboBox = new System.Windows.Forms.ComboBox();
             this.efectivoRecibido_lbl = new System.Windows.Forms.Label();
             this.efectivoRecibido_tbx = new System.Windows.Forms.TextBox();
+            this.ventasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tiendaDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cajaRegistradoraDataGridView)).BeginInit();
@@ -74,6 +76,7 @@ namespace Tienda
             this.productosToolStripMenuItem,
             this.inventarioToolStripMenuItem,
             this.ticketsToolStripMenuItem,
+            this.ventasToolStripMenuItem,
             this.ayudaToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -188,6 +191,10 @@ namespace Tienda
             // ticketTableAdapter
             // 
             this.ticketTableAdapter.ClearBeforeFill = true;
+            // 
+            // ventasTableAdapter
+            // 
+            this.ventasTableAdapter.ClearBeforeFill = true;
             // 
             // tableAdapterManager
             // 
@@ -319,6 +326,13 @@ namespace Tienda
             this.efectivoRecibido_tbx.TabIndex = 14;
             this.efectivoRecibido_tbx.Text = "0";
             // 
+            // ventasToolStripMenuItem
+            // 
+            this.ventasToolStripMenuItem.Name = "ventasToolStripMenuItem";
+            this.ventasToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.ventasToolStripMenuItem.Text = "Ventas";
+            this.ventasToolStripMenuItem.Click += new System.EventHandler(this.ventasToolStripMenuItem_Click);
+            // 
             // CajaRegistradoraForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -361,6 +375,7 @@ namespace Tienda
         private TiendaDataSetTableAdapters.CajaRegistradoraTableAdapter cajaRegistradoraTableAdapter;
         private TiendaDataSetTableAdapters.InventarioTableAdapter inventarioTableAdapter;
         private TiendaDataSetTableAdapters.TicketTableAdapter ticketTableAdapter;
+        private TiendaDataSetTableAdapters.VentasTableAdapter ventasTableAdapter;
         private TiendaDataSetTableAdapters.TableAdapterManager tableAdapterManager;
         private System.Windows.Forms.Label idProducto_lbl;
         private System.Windows.Forms.Button agregar_btn;
@@ -383,6 +398,7 @@ namespace Tienda
         private System.Windows.Forms.TextBox efectivoRecibido_tbx;
         private System.Windows.Forms.ToolStripMenuItem productosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ticketsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ventasToolStripMenuItem;
     }
 }
 
