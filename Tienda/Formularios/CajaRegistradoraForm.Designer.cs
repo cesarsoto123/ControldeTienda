@@ -56,6 +56,8 @@ namespace Tienda
             this.metodoDePagoComboBox = new System.Windows.Forms.ComboBox();
             this.efectivoRecibido_lbl = new System.Windows.Forms.Label();
             this.efectivoRecibido_tbx = new System.Windows.Forms.TextBox();
+            this.idCuenta = new System.Windows.Forms.Label();
+            this.idCuenta_tbx = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tiendaDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cajaRegistradoraDataGridView)).BeginInit();
@@ -181,7 +183,9 @@ namespace Tienda
             this.tableAdapterManager.CajaRegistradoraTableAdapter = this.cajaRegistradoraTableAdapter;
             this.tableAdapterManager.InventarioTableAdapter = this.inventarioTableAdapter;
             this.tableAdapterManager.ProductosTableAdapter = null;
+            this.tableAdapterManager.TicketTableAdapter = null;
             this.tableAdapterManager.UpdateOrder = Tienda.TiendaDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
+            this.tableAdapterManager.VentasTableAdapter = null;
             // 
             // cajaRegistradoraDataGridView
             // 
@@ -303,11 +307,31 @@ namespace Tienda
             this.efectivoRecibido_tbx.TabIndex = 14;
             this.efectivoRecibido_tbx.Text = "0";
             // 
+            // idCuenta
+            // 
+            this.idCuenta.AutoSize = true;
+            this.idCuenta.Font = new System.Drawing.Font("Modern No. 20", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.idCuenta.Location = new System.Drawing.Point(566, 317);
+            this.idCuenta.Name = "idCuenta";
+            this.idCuenta.Size = new System.Drawing.Size(76, 18);
+            this.idCuenta.TabIndex = 15;
+            this.idCuenta.Text = "Id Cuenta:";
+            // 
+            // idCuenta_tbx
+            // 
+            this.idCuenta_tbx.Font = new System.Drawing.Font("Modern No. 20", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.idCuenta_tbx.Location = new System.Drawing.Point(648, 314);
+            this.idCuenta_tbx.Name = "idCuenta_tbx";
+            this.idCuenta_tbx.Size = new System.Drawing.Size(100, 25);
+            this.idCuenta_tbx.TabIndex = 16;
+            // 
             // CajaRegistradoraForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(944, 479);
+            this.Controls.Add(this.idCuenta_tbx);
+            this.Controls.Add(this.idCuenta);
             this.Controls.Add(this.efectivoRecibido_tbx);
             this.Controls.Add(this.efectivoRecibido_lbl);
             this.Controls.Add(this.metodoDePagoComboBox);
@@ -344,6 +368,7 @@ namespace Tienda
         private TiendaDataSet tiendaDataSet;
         private TiendaDataSetTableAdapters.CajaRegistradoraTableAdapter cajaRegistradoraTableAdapter;
         private TiendaDataSetTableAdapters.InventarioTableAdapter inventarioTableAdapter;
+        private TiendaDataSetTableAdapters.TicketTableAdapter ticketTableAdapter;
         private TiendaDataSetTableAdapters.TableAdapterManager tableAdapterManager;
         private System.Windows.Forms.Label idProducto_lbl;
         private System.Windows.Forms.Button agregar_btn;
@@ -365,6 +390,8 @@ namespace Tienda
         private System.Windows.Forms.Label efectivoRecibido_lbl;
         private System.Windows.Forms.TextBox efectivoRecibido_tbx;
         private System.Windows.Forms.ToolStripMenuItem productosToolStripMenuItem;
+        private System.Windows.Forms.Label idCuenta;
+        private System.Windows.Forms.TextBox idCuenta_tbx;
     }
 }
 

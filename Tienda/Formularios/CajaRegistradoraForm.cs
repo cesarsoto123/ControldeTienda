@@ -99,6 +99,12 @@ namespace Tienda
                 }
                 else
                 {
+                    DateTime fecha = DateTime.Now;
+                    int fechaComoEntero = fecha.Year * 10000 + fecha.Month * 100 + fecha.Day;
+                    int idCuenta = Convert.ToInt32(idCuenta_tbx.Text);
+                    int folio = Convert.ToInt32(idCuenta_tbx.Text + Convert.ToString(fechaComoEntero));
+                    this.ticketTableAdapter.Insertar(folio, idCuenta, DateTime.Now, total);
+                    this.ticketTableAdapter.Update(this.tiendaDataSet.Ticket);
                     if (metodoDePagoComboBox.Text == "Efectivo")
                     {
                         float dineroRecibido = Convert.ToSingle(efectivoRecibido_tbx.Text);
