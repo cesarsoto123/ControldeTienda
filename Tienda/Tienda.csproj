@@ -111,16 +111,16 @@
     <Compile Include="Formularios\CajaRegistradoraForm.Designer.cs">
       <DependentUpon>CajaRegistradoraForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="InventarioForm.cs">
+    <Compile Include="Formularios\InventarioForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="InventarioForm.Designer.cs">
+    <Compile Include="Formularios\InventarioForm.Designer.cs">
       <DependentUpon>InventarioForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ProductosForm.cs">
+    <Compile Include="Formularios\ProductosForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ProductosForm.Designer.cs">
+    <Compile Include="Formularios\ProductosForm.Designer.cs">
       <DependentUpon>ProductosForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
@@ -137,10 +137,10 @@
       <DependentUpon>CajaRegistradoraForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="InventarioForm.resx">
+    <EmbeddedResource Include="Formularios\InventarioForm.resx">
       <DependentUpon>InventarioForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ProductosForm.resx">
+    <EmbeddedResource Include="Formularios\ProductosForm.resx">
       <DependentUpon>ProductosForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
