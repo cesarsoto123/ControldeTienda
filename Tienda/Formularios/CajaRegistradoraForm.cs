@@ -141,6 +141,12 @@ namespace Tienda
                             {
                                 row.RelativeItem().Column(column =>
                                 {
+                                    column.Item().AlignCenter().Text("Krustacio Kaskarudo").FontSize(24).Style(new TextStyle().ExtraBold());
+                                    column.Item().Text("krustacio Kaskarudo, S.A.P.I DE C.V").FontSize(10).Style(new TextStyle().ExtraBold());
+                                    column.Item().Text("Fondo de Bikini 0123").FontSize(10).Style(new TextStyle().ExtraBold());
+                                    column.Item().Text("Suc. Enfrente del Balde de Carnada").FontSize(10).Style(new TextStyle().ExtraBold());
+                                    column.Item().Text("Fondo de Bikini, Mar").FontSize(10).Style(new TextStyle().ExtraBold());
+
                                     column.Item().Text("Ticket").Style(new TextStyle().ExtraBold());
 
                                     column.Item().Text(text =>

@@ -35,6 +35,7 @@ namespace Tienda
             this.productosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.inventarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ticketsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ventasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ayudaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tiendaDataSet = new Tienda.TiendaDataSet();
             this.idProducto_lbl = new System.Windows.Forms.Label();
@@ -59,7 +60,6 @@ namespace Tienda
             this.metodoDePagoComboBox = new System.Windows.Forms.ComboBox();
             this.efectivoRecibido_lbl = new System.Windows.Forms.Label();
             this.efectivoRecibido_tbx = new System.Windows.Forms.TextBox();
-            this.ventasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tiendaDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cajaRegistradoraDataGridView)).BeginInit();
@@ -111,6 +111,13 @@ namespace Tienda
             this.ticketsToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
             this.ticketsToolStripMenuItem.Text = "Tickets";
             this.ticketsToolStripMenuItem.Click += new System.EventHandler(this.TicketButtonClick);
+            // 
+            // ventasToolStripMenuItem
+            // 
+            this.ventasToolStripMenuItem.Name = "ventasToolStripMenuItem";
+            this.ventasToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.ventasToolStripMenuItem.Text = "Ventas";
+            this.ventasToolStripMenuItem.Click += new System.EventHandler(this.ventasToolStripMenuItem_Click);
             // 
             // ayudaToolStripMenuItem
             // 
@@ -325,13 +332,6 @@ namespace Tienda
             this.efectivoRecibido_tbx.Size = new System.Drawing.Size(100, 25);
             this.efectivoRecibido_tbx.TabIndex = 14;
             this.efectivoRecibido_tbx.Text = "0";
-            // 
-            // ventasToolStripMenuItem
-            // 
-            this.ventasToolStripMenuItem.Name = "ventasToolStripMenuItem";
-            this.ventasToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
-            this.ventasToolStripMenuItem.Text = "Ventas";
-            this.ventasToolStripMenuItem.Click += new System.EventHandler(this.ventasToolStripMenuItem_Click);
             // 
             // CajaRegistradoraForm
             // 
